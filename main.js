@@ -2,6 +2,7 @@ import { sun as sunModel, imageData, mercuryTexture } from "./constants.js";
 
 var scene, camera, render, container;
 let width, height;
+var light;
 width = parseInt(document.body.clientWidth);
 height = parseInt(document.body.clientHeight);
 
@@ -12,7 +13,16 @@ camera = new THREE.PerspectiveCamera(45, width / height, 1, 10000);
 
 // Высота камеры
 camera.position.z = 8000;
+// Поворот камеры
+camera.rotation.z = -Math.PI / 20;
 scene = new THREE.Scene();
+
+// Освещение
+var light = new THREE.PointLight(0xffffff);
+
+light.position.y = 1.5;
+light.intensity = 2;
+scene.add(light);
 
 // Звёзды
 let starsGeometry = new THREE.Geometry();
@@ -36,9 +46,6 @@ for (let i = 0; i < 15000; i++) {
 stars = new THREE.Points(starsGeometry, starsMaterial);
 scene.add(stars);
 
-// var light = new THREE.AmbientLight(0x404040);
-// scene.add(light);
-
 // Солнце
 let texture = new THREE.TextureLoader().load(sunModel);
 var material = new THREE.MeshBasicMaterial({ map: texture });
@@ -48,9 +55,10 @@ scene.add(sun);
 
 // Земля
 var earthTexture = new THREE.TextureLoader().load(imageData);
-var material = new THREE.MeshBasicMaterial({ map: earthTexture });
+var material = new THREE.MeshLambertMaterial({ map: earthTexture });
 earthTexture = new THREE.SphereGeometry(100, 20, 20);
 var earth = new THREE.Mesh(earthTexture, material);
+// earth.castShadow = true;
 scene.add(earth);
 
 var mercuryText = new THREE.TextureLoader().load(mercuryTexture);
@@ -81,8 +89,8 @@ function animate() {
   sun.rotation.y += 0.001;
 
   //   2000 - радиус вращения
-  earth.position.x = Math.sin(t * 0.1) * 4500;
-  earth.position.z = Math.cos(t * 0.1) * 4500;
+  earth.position.x = Math.sin(t * 0.1) * 2500;
+  earth.position.z = Math.cos(t * 0.1) * 2500;
 
   camera.position.y = y * 3;
   //  смотрим на Солнце со стороны Земли

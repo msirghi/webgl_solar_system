@@ -75,7 +75,7 @@ let earth = new THREE.Mesh(earthTexture, earthMaterial);
 scene.add(earth);
 
 let mercuryTexture = new THREE.TextureLoader().load(mercuryImage);
-let mercuryMaterial = new THREE.MeshBasicMaterial({ map: mercuryTexture });
+let mercuryMaterial = new THREE.MeshLambertMaterial({ map: mercuryTexture });
 mercuryTexture = new THREE.SphereGeometry(60, 20, 20);
 let mercury = new THREE.Mesh(mercuryTexture, mercuryMaterial);
 scene.add(mercury);
@@ -139,6 +139,7 @@ function animate() {
   earth.position.z = Math.cos(t * 0.1) * 2500;
 
   sun.rotation.y += 0.002;
+  earth.rotation.y += 0.02;
 
   moon.position.x = earth.position.x + Math.sin(t * 0.5) * 500;
   moon.position.z = earth.position.z + Math.cos(t * 0.5) * 500;

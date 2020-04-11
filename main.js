@@ -2,7 +2,7 @@ import {
   sun as sunModel,
   imageData,
   mercuryImage,
-  moonImage
+  moonImage,
 } from "./constants.js";
 
 let scene, camera, render, container;
@@ -33,7 +33,7 @@ let starsMaterial = new THREE.PointsMaterial({
   color: 0xbbbbbb,
   opacity: 0.3,
   size: 1,
-  sizeAttenuation: false
+  sizeAttenuation: false,
 });
 let stars;
 
@@ -58,7 +58,7 @@ let sun = new THREE.Mesh(sunTexture, sunMaterial);
 var sunGlow1Sphere = new THREE.SphereGeometry(1100, 80, 50);
 var sunGlow1Material = new THREE.MeshBasicMaterial({
   transparent: true,
-  opacity: 0.2
+  opacity: 0.2,
 });
 sunGlow1Material.color = new THREE.Color("rgb(255, 190, 0)");
 
@@ -74,25 +74,79 @@ earthTexture = new THREE.SphereGeometry(100, 20, 20);
 let earth = new THREE.Mesh(earthTexture, earthMaterial);
 scene.add(earth);
 
+// Меркурий
 let mercuryTexture = new THREE.TextureLoader().load(mercuryImage);
 let mercuryMaterial = new THREE.MeshLambertMaterial({ map: mercuryTexture });
 mercuryTexture = new THREE.SphereGeometry(60, 20, 20);
 let mercury = new THREE.Mesh(mercuryTexture, mercuryMaterial);
 scene.add(mercury);
 
+// Луна
 let moonTexture = new THREE.TextureLoader().load(moonImage);
 let moonMaterial = new THREE.MeshLambertMaterial({ map: moonTexture });
 moonTexture = new THREE.SphereGeometry(60, 20, 20);
 let moon = new THREE.Mesh(moonTexture, moonMaterial);
 scene.add(moon);
 
-let skybox_group = new THREE.Object3D();
-let SkyboxMesh = CreateSphere("eso_dark.jpg", 6500, 0, "Skybox", true);
-SkyboxMesh.material.side = THREE.BackSide;
-SkyboxMesh.rotation.x = (Math.PI / 180) * 63;
-skybox_group.add(SkyboxMesh);
+// Венера
+let veneraTexture = new THREE.TextureLoader().load("venera.jpg");
+let veneraMaterial = new THREE.MeshLambertMaterial({ map: veneraTexture });
+veneraTexture = new THREE.SphereGeometry(60, 20, 20);
+let venera = new THREE.Mesh(veneraTexture, veneraMaterial);
+scene.add(venera);
 
+// Галактика
+let skybox_group = new THREE.Object3D();
+let SkyboxMesh = CreateSphere("eso_dark.jpg", 9500, 0, "Skybox", true);
+SkyboxMesh.material.side = THREE.BackSide;
+SkyboxMesh.rotation.x = (Math.PI) * 63;
+skybox_group.add(SkyboxMesh);
 scene.add(skybox_group);
+
+// Марс
+let marsTexture = new THREE.TextureLoader().load("mars.jpg");
+let marsMaterial = new THREE.MeshLambertMaterial({ map: marsTexture });
+marsTexture = new THREE.SphereGeometry(120, 150, 150);
+let mars = new THREE.Mesh(marsTexture, marsMaterial);
+scene.add(mars);
+
+// Юпитер
+let jupiterTexture = new THREE.TextureLoader().load("jupiter.jpg");
+let jupiterMaterial = new THREE.MeshLambertMaterial({ map: jupiterTexture });
+jupiterTexture = new THREE.SphereGeometry(320, 150, 150);
+let jupiter = new THREE.Mesh(jupiterTexture, jupiterMaterial);
+scene.add(jupiter);
+
+// Сатурн
+let saturnTexture = new THREE.TextureLoader().load("saturn.jpg");
+let saturnMaterial = new THREE.MeshLambertMaterial({ map: saturnTexture });
+saturnTexture = new THREE.SphereGeometry(350, 150, 150);
+let saturn = new THREE.Mesh(saturnTexture, saturnMaterial);
+scene.add(saturn);
+
+// Кольца Сатурна
+let ringsTexture= new THREE.TextureLoader().load("test.png");
+let geometry = new THREE.RingGeometry(570, 450, 150);
+let material = new THREE.MeshBasicMaterial({
+  color: 0xffff00,
+  side: THREE.DoubleSide,
+  map: ringsTexture
+});
+let firstRing = new THREE.Mesh(geometry, material);
+firstRing.rotation.x = Math.PI / 2;
+firstRing.rotation.y = Math.PI / 6;
+scene.add(firstRing);
+
+geometry = new THREE.RingGeometry(770, 600, 150);
+ material = new THREE.MeshBasicMaterial({
+  color: 0xffff00,
+  side: THREE.DoubleSide,
+  map: ringsTexture
+});
+let secondRing = new THREE.Mesh(geometry, material);
+secondRing.rotation.x = Math.PI / 2;
+secondRing.rotation.y = Math.PI / 6;
+scene.add(secondRing);
 
 function CreateSphere(texture_u, radius, polygon_count, name, basic) {
   let manager = new THREE.LoadingManager();
@@ -103,11 +157,11 @@ function CreateSphere(texture_u, radius, polygon_count, name, basic) {
     polygon_count,
     polygon_count
   );
-  if (basic == true) {
+  if (basic) {
     var sphere_material = new THREE.MeshBasicMaterial({ map: sphere_texture });
   } else {
     var sphere_material = new THREE.MeshLambertMaterial({
-      map: sphere_texture
+      map: sphere_texture,
     });
   }
   let sphere_mesh = new THREE.Mesh(sphere_geometry, sphere_material);
@@ -126,27 +180,43 @@ let controls = new THREE.OrbitControls(camera, render.domElement);
 let t = 0;
 animate();
 
-// document.addEventListener("mousemove", e => {
-//   // y = parseInt(event.offsetY);
-// });
-
 function animate() {
   requestAnimationFrame(animate);
-  //   sun.rotation.y += 0.001;
+  //
+  mercury.position.x = Math.sin(t * 0.2) * 1500;
+  mercury.position.z = Math.cos(t * 0.2) * 1500;
+
+  venera.position.x = Math.sin(t * 0.175) * 2000;
+  venera.position.z = Math.cos(t * 0.175) * 2000;
 
   //   2000 - радиус вращения
-  earth.position.x = Math.sin(t * 0.1) * 2500;
-  earth.position.z = Math.cos(t * 0.1) * 2500;
+  earth.position.x = Math.sin(t * 0.15) * 2750;
+  earth.position.z = Math.cos(t * 0.15) * 2750;
+
+  mars.position.x = Math.sin(t * 0.125) * 3750;
+  mars.position.z = Math.cos(t * 0.125) * 3750;
+
+  jupiter.position.x = Math.sin(t * 0.1) * 4750;
+  jupiter.position.z = Math.cos(t * 0.1) * 4750;
+
+  saturn.position.x = Math.sin(t * 0.075) * 6550;
+  saturn.position.z = Math.cos(t * 0.075) * 6550;
 
   sun.rotation.y += 0.002;
   earth.rotation.y += 0.02;
+  mars.rotation.y += 0.002;
+  jupiter.rotation.y += 0.02;
+  venera.rotation.y += 0.02;
 
-  moon.position.x = earth.position.x + Math.sin(t * 0.5) * 500;
-  moon.position.z = earth.position.z + Math.cos(t * 0.5) * 500;
+  moon.position.x = earth.position.x + Math.sin(t * 0.5) * 350;
+  moon.position.z = earth.position.z + Math.cos(t * 0.5) * 350;
 
-  //   camera.position.y = y * 3;
-  mercury.position.x = Math.sin(t * 0.3) * 1500;
-  mercury.position.z = Math.cos(t * 0.3) * 1500;
+  firstRing.position.x = saturn.position.x ;
+  firstRing.position.z = saturn.position.z;
+
+  secondRing.position.x = saturn.position.x;
+  secondRing.position.z = saturn.position.z;
+
   t += (Math.PI / 180) * 2;
   render.render(scene, camera);
 }

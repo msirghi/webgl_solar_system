@@ -13,7 +13,7 @@ height = parseInt(document.body.clientHeight);
 container = document.createElement("div");
 document.body.appendChild(container);
 
-camera = new THREE.PerspectiveCamera(95, width / height, 1, 10000);
+camera = new THREE.PerspectiveCamera(95, width / height, 1, 20000);
 
 // Высота камеры
 camera.position.z = 8000;
@@ -55,14 +55,14 @@ let sunMaterial = new THREE.MeshBasicMaterial({ map: sunTexture });
 sunTexture = new THREE.SphereGeometry(1030, 80, 50);
 let sun = new THREE.Mesh(sunTexture, sunMaterial);
 
-var sunGlow1Sphere = new THREE.SphereGeometry(1100, 80, 50);
-var sunGlow1Material = new THREE.MeshBasicMaterial({
+let sunGlow1Sphere = new THREE.SphereGeometry(1100, 80, 50);
+let sunGlow1Material = new THREE.MeshBasicMaterial({
   transparent: true,
   opacity: 0.2,
 });
 sunGlow1Material.color = new THREE.Color("rgb(255, 190, 0)");
 
-var sunGlow1 = new THREE.Mesh(sunGlow1Sphere, sunGlow1Material);
+let sunGlow1 = new THREE.Mesh(sunGlow1Sphere, sunGlow1Material);
 sunGlow1.position.set(0, 0, 0);
 sun.add(sunGlow1);
 scene.add(sun);
@@ -207,6 +207,7 @@ function animate() {
   mars.rotation.y += 0.002;
   jupiter.rotation.y += 0.02;
   venera.rotation.y += 0.02;
+  saturn.rotation.y += 0.02;
 
   moon.position.x = earth.position.x + Math.sin(t * 0.5) * 350;
   moon.position.z = earth.position.z + Math.cos(t * 0.5) * 350;

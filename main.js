@@ -138,7 +138,7 @@ firstRing.rotation.y = Math.PI / 6;
 scene.add(firstRing);
 
 geometry = new THREE.RingGeometry(770, 600, 150);
- material = new THREE.MeshBasicMaterial({
+material = new THREE.MeshBasicMaterial({
   color: 0xffff00,
   side: THREE.DoubleSide,
   map: ringsTexture
@@ -153,9 +153,9 @@ function CreateSphere(texture_u, radius, polygon_count, name, basic) {
   let sphere_loader = new THREE.TextureLoader(manager);
   let sphere_texture = sphere_loader.load(texture_u);
   let sphere_geometry = new THREE.SphereGeometry(
-    radius,
-    polygon_count,
-    polygon_count
+      radius,
+      polygon_count,
+      polygon_count
   );
   if (basic) {
     var sphere_material = new THREE.MeshBasicMaterial({ map: sphere_texture });
@@ -170,8 +170,8 @@ function CreateSphere(texture_u, radius, polygon_count, name, basic) {
 }
 
 render = window.WebGLRenderingContext
-  ? new THREE.WebGLRenderer()
-  : new THREE.CanvasRenderer();
+    ? new THREE.WebGLRenderer()
+    : new THREE.CanvasRenderer();
 render.setSize(width, height);
 container.appendChild(render.domElement);
 
@@ -228,18 +228,18 @@ let earthAnimationFrame = null;
 let mercuryAnimationFrame = null;
 
 document
-  .getElementById("earthPerspective")
-  .addEventListener("click", () => toggleEarthPerspective(earthPerpectiveMode));
+    .getElementById("earthPerspective")
+    .addEventListener("click", () => toggleEarthPerspective(earthPerpectiveMode));
 
 document
-  .getElementById("mercuryPerspective")
-  .addEventListener("click", () =>
-    toggleMercuryPerpective(mercuryPerpectiveMode)
-  );
+    .getElementById("mercuryPerspective")
+    .addEventListener("click", () =>
+        toggleMercuryPerpective(mercuryPerpectiveMode)
+    );
 
 document
-  .getElementById("resetButton")
-  .addEventListener("click", () => resetCamera());
+    .getElementById("resetButton")
+    .addEventListener("click", () => resetCamera());
 
 function resetCamera() {
   //   cancelAnimationFrame(mercuryAnimationFrame);
